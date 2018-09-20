@@ -18,7 +18,6 @@
     </style>
 
     <!-- Keycloak Adapter Start-->
-	<script src="SSO_URL/auth/js/keycloak.js"></script>
 
     <!-- Keycloak Adapter End -->
     
@@ -97,7 +96,7 @@
                         <p><div id="mapid"></div></p>
 
                         <!-- Keycloak Login Start -->
-<p><a id="loginUrl" href="#" class="btn btn-primary">Sign In to access the Location API Service</a></p>
+
                         <!-- Keycloak Login End -->
                         
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam congue lectus diam, sit amet cursus massa efficitur sed. Pellentesque efficitur dolor tellus, sit amet vestibulum leo facilisis ac. Nullam vitae fringilla neque. Aliquam erat nunc, vestibulum at suscipit quis, consequat nec lorem. Phasellus porttitor mollis fermentum. Nulla eu eros libero. Donec semper, urna a rhoncus rutrum, nulla neque dignissim neque, nec congue tortor enim id mauris. Nulla euismod dolor lacus, porttitor imperdiet elit ornare nec. In finibus non justo id viverra.</p>
@@ -199,48 +198,18 @@
 
             // Keycloak Config Start
 
-            var keyOptions = {
-    url: 'SSO_URL/auth',
-    realm: 'SSO_REALM',
-    clientId: 'CLIENT_ID'
-};
-
-var keycloak = Keycloak(keyOptions);
-keycloak.init({ onLoad: 'check-sso' }).success(function (authenticated) {
-    if (authenticated) {
-        $("<h4>Welcome " + keycloak.idTokenParsed.preferred_username + "</h4> ").insertBefore($('#mapid'));
-        callService(mymap, keycloak.token);
-        $('#mapid').show();
-        $('#loginUrl').hide();
-    }
-    else {
-        $('#mapid').hide();
-        $('#loginUrl').show();
-    }
-}).error(function (data) {
-    alert('Failed to initialize keycloak: ' + data);
-});
-
-var opts = {
-    redirectUri: window.location.origin + "/locations.html"
-};
-
-var loginUrl = keycloak.createLoginUrl(opts);
-document.getElementById('loginUrl').href = loginUrl;
-
+            callService(mymap)
 
             // Keycloak Config End            
         });
         function callService(map 
             /* Keycloack Params Start*/ 
-, token
+
             /* Keycloak Params End */){
             $.ajax({
                 url: 'API_BACKEND_URL',
                 // Keycloak Ajax Start
-headers: {
-     'Authorization': 'Bearer ' + token
-},
+
                 // Keycloak Ajax End
                 dataType: 'json'
             }).done(function(data) {
